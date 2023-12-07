@@ -76,3 +76,25 @@ resource "aws_security_group" "remote-access" {
     owner   = var.project_owner
   }
 }
+#-------------------------------------------------------------------------------------------
+# Creating Ec2 instance
+#-------------------------------------------------------------------------------------------
+
+resource "aws_instance" "frontend" {
+  ami                    = var.ami_id
+  instance_type          = var.instance_type
+  key_name               = aws_key_pair.auth_key.key_name
+  user_data              = file("setup.sh")
+  vpc_security_group_ids = [aws_security_group.http-access.id, aws_security_group.remote-access.id]
+  tags = {
+    Name    = "${var.project_name}-${var.project_env}-frontend"
+    project = var.project_name
+    env     = var.project_env
+    owner   = var.project_owner
+  }
+  lifecycle {
+    create_before_destroy = true
+  }
+
+}
+
