@@ -28,4 +28,15 @@ variable "project_owner" {
   default     = "neethu"
 }
 
+variable "hosted_zone_name" {
+  type        = string
+  description = "domain name"
+  default     = "thirdeyestechnicalservices.com"
+}
+
+variable "hostname" {
+  type        = string
+  description = "hostname"
+  default     = "terraform"
+}
 

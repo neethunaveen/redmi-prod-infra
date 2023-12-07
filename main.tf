@@ -104,4 +104,13 @@ resource "aws_instance" "frontend" {
   }
 
 }
-
+#-------------------------------------------------------------------------------------------
+# DNS record
+#-------------------------------------------------------------------------------------------
+resource "aws_route53_record" "frontend" {
+  zone_id = data.aws_route53_zone.official.id
+  name    = "${var.hostname}.${var.hosted_zone_name}"
+  type    = "A"
+  ttl     = 60
+  records = [aws_instance.frontend.public_ip]
+}
